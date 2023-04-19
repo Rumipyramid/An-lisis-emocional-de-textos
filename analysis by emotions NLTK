@@ -8,21 +8,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction import DictVectorizer
 
-
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
 nltk.download('stopwords')
 nltk.download('sentiwordnet')
 
-with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/The seventh.txt", 'r') as archivo:
-    texto1 = archivo.read()
+url1 = 'https://raw.githubusercontent.com/username/repo/master/The_seventh.txt'
+url2 = 'https://raw.githubusercontent.com/username/repo/master/I_AM_SO_IN_LOVE_WITH_YOU_I_WANT_TO_LIE_DOWN_IN_TH_EMIDDLE_OF_A_MAJOR_PUBLIC_INTERSECTION_AND_CRY.txt'
+url3 = 'https://raw.githubusercontent.com/username/repo/master/Ocasión.txt'
 
-with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/I AM SO IN LOVE WITH YOU I WANT TO LIE DOWN IN TH EMIDDLE OF A MAJOR PUBLIC INTERSECTION AND CRY.txt", 'r') as archivo:
-    texto2 = archivo.read()
-
-with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/Ocasión.txt", 'r') as archivo:
-    texto3 = archivo.read()
+texto1 = TextBlob(requests.get(url1).text).raw_sentences()
+texto2 = TextBlob(requests.get(url2).text).raw_sentences()
+texto3 = TextBlob(requests.get(url3).text).raw_sentences()
 
 def extract_emotions_NRC(texto):
     """
@@ -75,4 +73,4 @@ emociones_ejemplo2 = extract_emotions_NRC(texto2)
 print(emociones_ejemplo2)
 
 emociones_ejemplo3 = extract_emotions_NRC(texto3)
-print(emociones_ejemplo3)
+print(emociones_ejemplo3
