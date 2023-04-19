@@ -1,0 +1,40 @@
+from nltk.corpus import sentiwordnet as swn
+from nltk.corpus import wordnet as wn
+from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import StandardScaler
+from sklearn.feature_extraction import DictVectorizer
+
+
+with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/The seventh.txt", 'r') as archivo:
+    texto1 = archivo.read()
+
+with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/I AM SO IN LOVE WITH YOU I WANT TO LIE DOWN IN TH EMIDDLE OF A MAJOR PUBLIC INTERSECTION AND CRY.txt", 'r') as archivo:
+    texto2 = archivo.read()
+
+with open("C:/Users/USUARIO/Desktop/LEMURIA/Python/Textos análisis/Poemas/Ocasión.txt", 'r') as archivo:
+    texto3 = archivo.read()
+
+palabras_vacias = set(nltk.corpus.stopwords.words('spanish'))
+
+def limpiar_texto(texto):
+    tokens = nltk.word_tokenize(texto.lower())
+    tokens_limpio = [token for token in tokens if token.isalpha() and token not in palabras_vacias]
+    texto_limpio = ' '.join(tokens_limpio)
+    return texto_limpio
+
+texto1_limpio = limpiar_texto(texto1)
+texto2_limpio = limpiar_texto(texto2)
+texto3_limpio = limpiar_texto(texto3)
+
+vectorizador = TfidfVectorizer()
+vectorizador.fit([texto1_limpio, texto2_limpio, texto3_limpio])
+
+vector_texto1 = vectorizador.transform([texto1_limpio])
+vector_texto2 = vectorizador.transform([texto2_limpio])
+vector_texto3 = vectorizador.transform([texto3_limpio])
+
+similitud = cosine_similarity(vector_texto1.toarray(), vector_texto2.toarray(), vector_texto3.toarray())
+
+print(f"La similitud entre los textos es: {similitud[0][0]}")
